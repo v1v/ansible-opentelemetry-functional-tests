@@ -1,0 +1,31 @@
+---
+- name: MyPlabook
+  hosts: localhost
+  connection: local
+
+  roles:
+  - role: myrole
+
+  tasks:
+
+  - name: Task to create a service map
+    uri:
+      url: https://www.github.com
+
+  - name: Task to verify the ansible collection.
+    ansible.builtin.shell: sleep 1
+
+  - name: Task to redact the user and password
+    ansible.builtin.git:
+      repo: https://v1v:pass@github.com/ansible/ansible-examples.git
+      dest: /Users/vmartinez/.ansible/tmp/ansible-examples1
+      version: master
+    ignore_errors: yes
+
+  - name: Task to verify loops
+    shell: "exit {{ item }}"
+    loop:
+      - 0
+      - 2
+      - bc
+    register: echo
